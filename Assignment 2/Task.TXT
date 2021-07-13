@@ -1,0 +1,26 @@
+Problem Statement for Assignment 2
+You are given the stock price till the (t-1)^th day and you need to predict whether the stock price would go up,down or would remain sideways on the t^th day,
+So the current state is the close price list till the (t-1)-day  and the number of stocks we have purchased on this time stamp
+Your action would be:
+You should buy the stock(which means we predict the stock price to go up)
+You should sell the stock(which means we predict the stock price to go down)
+You should hold on the position (which means do nothing)
+First of all there a few variables
+MAX_TRANSACTIONS = k, maximum number of time we can do a buy after a selling
+TOTAL_MONEY = k2 , total money that we have in cash(virtual ) 
+CURRENT_STOCKS_BOUGHT = k3 , the number of stocks we have bought currently
+CURRENT_TRANSACTION_COUNT = k4, number of buys done before selling - You can only do the buy if CURRENT_TRANSACTION_COUNT<MAX_TRANSACTIONS
+Whenever you do a buy the amount with which you buy the stocks are x= TOTAL_MONEY/(MAX_TRANSACTIONS- CURRENT_TRANSACTION_COUNT)  and the number of stocks bought in this buy signal = x/STOCK_PRICE at that moment.
+Whenever you do sell just increase your TOTAL_MONEY by CURRENT_STOCKS_BOUGHT*STOCK_PRICE and do the CURRENT_TRANSACTION_COUNT=0
+Now when to do a buy or when to do the sell:
+Do the buy whenever there is a buy signal and when CURRENT_TRANSACTION_COUNT<MAX_TRANSACTIONS
+When there is a sell signal from DQN , just sell any stocks if you had purchased if any
+When there is a hold signal , do nothing
+Reward: It is the profit or the loss that happens in any transactions
+DataSet: Use the 2009 January-2017 December data for training and then use the 2018 January-2019 December data to do the test(and report the profits made in it)
+
+
+
+Here are some more details for the reward function:
+If you are doing the trade then reward = profit / loss in that transaction
+If your are not holding any stock then your reward function should penalise if there was a  profit earning opportunity and it missed it. Similarly it should get positive reward it there was a loss occurring and your model did not do any trade
